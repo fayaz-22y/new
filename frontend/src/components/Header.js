@@ -1,14 +1,15 @@
-import { Link, NavLink } from 'react-router-dom';
-
-export default function Header() {
-  return (
-    <header className="header">
-      <Link to="/"><h1>FLOZZ</h1></Link>
-      <nav>
-        <NavLink to="/" end>Home</NavLink>
-        <NavLink to="/products">Shop</NavLink>
-        <NavLink to="/cart">Cart</NavLink>
+import React from 'react';
+import { Link } from 'react-router-dom';
+const Header = ({cartItemsCount=0})=>(
+  <header className="header">
+    <div className="container">
+      <Link to="/" className="logo">Flozz</Link>
+      <nav className="nav">
+        <Link to="/">Home</Link>
+        <Link to="/products">Products</Link>
+        <Link to="/cart">Cart ({cartItemsCount})</Link>
       </nav>
-    </header>
-  );
-}
+    </div>
+  </header>
+);
+export default Header;

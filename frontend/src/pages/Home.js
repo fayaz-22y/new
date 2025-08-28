@@ -1,11 +1,12 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
-
-export default function Home() {
-  return (
-    <section className="card" style={{textAlign:'center'}}>
-      <h2>Step into Comfort & Style</h2>
-      <p>Explore the latest from Flozz — crafted for performance, styled for life.</p>
-      <Link to="/products" className="btn primary">Shop Now</Link>
+const Home = ()=>(
+  <main className="container" style={{marginTop:80}}>
+    <section style={{padding:'2rem 0',textAlign:'center'}}>
+      <h1>Flozz — Premium Shoes</h1>
+      <p>Comfort • Style • Durability</p>
+      <Link to="/products" style={{display:'inline-block',marginTop:12,padding:'0.6rem 1rem',background:'#3498db',color:'#fff',borderRadius:6}}>Shop Now</Link>
     </section>
-  );
-}
+  </main>
+);
+export default Home;

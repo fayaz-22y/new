@@ -1,30 +1,19 @@
 const express = require('express');
 const cors = require('cors');
-const productRoutes = require('./routes/productRoutes');
-const cartRoutes = require('./routes/cartRoutes');
-const userRoutes = require('./routes/userRoutes');
-const orderRoutes = require('./routes/orderRoutes');
-const errorHandler = require('./middleware/errorHandler');
+const bodyParser = require('body-parser');
+require('dotenv').config();
+const productRoutes = require('./routes/products');
+const orderRoutes = require('./routes/orders');
 
 const app = express();
-
-// Middleware
+const PORT = process.env.PORT || 3001;
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// Routes
 app.use('/api/products', productRoutes);
-app.use('/api/cart', cartRoutes);
-app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 
-// Health check
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'OK', message: 'Server is running' });
-});
+app.get('/api/health', (req,res)=>res.json({status:'ok'}));
 
-// Error handling middleware
-app.use(errorHandler);
-
+app.listen(PORT, ()=>console.log('Server running on',PORT));
 module.exports = app;

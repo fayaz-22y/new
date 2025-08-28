@@ -1,32 +1,18 @@
-import { useEffect, useState } from 'react';
-import api from '../services/api';
+import React, {useEffect, useState} from 'react';
 import ProductCard from '../components/ProductCard';
-import { useCart } from '../context/CartContext';
-
-export default function Products() {
-  const [products, setProducts] = useState([]);
-  const [q, setQ] = useState('');
-  const { addToCart } = useCart();
-
-  const fetchProducts = async () => {
-    const url = q ? `/products/search?q=${encodeURIComponent(q)}` : '/products';
-    const { data } = await api.get(url);
-    setProducts(data);
-  };
-
-  useEffect(() => { fetchProducts(); }, []);
-
+import axios from 'axios';
+const Products = ({addToCart})=>{
+  const [products,setProducts]=useState([]);
+  const [loading,setLoading]=useState(true);
+  useEffect(()=>{axios.get(process.env.REACT_APP_API_URL + '/products').then(r=>setProducts(r.data)).catch(()=>{}).finally(()=>setLoading(false))},[]);
+  if(loading) return <div className="container" style={{marginTop:80}}>Loading...</div>
   return (
-    <section>
-      <div className="card" style={{marginBottom:16}}>
-        <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search products..."/>
-        <button className="btn ghost" onClick={fetchProducts} style={{marginLeft:8}}>Search</button>
+    <div className="container" style={{marginTop:80}}>
+      <h2>Products</h2>
+      <div className="products-grid">
+        {products.map(p=> <ProductCard key={p.id} product={p} addToCart={addToCart} />)}
       </div>
-      <div className="grid">
-        {products.map(p => (
-          <ProductCard key={p.id} product={p} onAdd={() => addToCart(p.id, 1)} />
-        ))}
-      </div>
-    </section>
+    </div>
   );
-}
+};
+export default Products;
